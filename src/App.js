@@ -1,25 +1,27 @@
+import React, { Fragment , useEffect, useState} from "react";
+import "./index.css"
+
+import {FetchDefaultFromApi,BasicModal} from "./functions/functions.js"
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useParams } from "react-router-dom";
+
+
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+export default function App2() {
+  const [users, setUsers] = useState();
+  const [productList, setProducts] = useState();
+  const element = <h1>REACT STORE</h1>;
+  const name = 'John Doe'
   return (
     <div className="App">
       <header className="App-header">
+        
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {element}
+        <FetchDefaultFromApi/>
+        
       </header>
     </div>
   );
 }
-
-export default App;
