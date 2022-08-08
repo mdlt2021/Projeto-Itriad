@@ -8,11 +8,16 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useParams } 
 import logo from './logo.svg';
 import './App.css';
 
-export default function App2() {
-  const [users, setUsers] = useState();
-  const [productList, setProducts] = useState();
+export default function Main() {
+
+
+
   const element = <h1>REACT STORE</h1>;
   const name = 'John Doe'
+  const teste = {
+    description:'descricao',
+    title:'titulo'
+  }
   return (
     <div className="App">
       <header className="App-header">
@@ -20,8 +25,10 @@ export default function App2() {
         <img src={logo} className="App-logo" alt="logo" />
         {element}
         <FetchDefaultFromApi/>
-        
+        {BasicModal(teste.description, teste.title, 'urlimagem.jpg')}
       </header>
     </div>
   );
 }
+
+// .onClickHandler.bind(this);

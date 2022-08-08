@@ -16,3 +16,23 @@ code {
   font-size: 15px;
   text-align: justify;
 }
+table {
+  border-collapse: collapse; 
+}
+
+tr:nth-child(n) {
+  border: solid thin;
+  height: 2em;
+
+}
+tr > th{
+  border: solid thin;
+  padding: 0px 1em;
+}
+
+.table-align-center{
+  text-align: center;
+}
+.padding-left-1em{
+  padding-left:1em;
+}
