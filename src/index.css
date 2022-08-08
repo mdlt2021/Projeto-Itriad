@@ -1,57 +1,57 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.table{
-  font-size: 15px;
-  text-align: justify;
+.table {
+    font-size: 15px;
+    text-align: justify;
+    margin: 0px 10px;
 }
+
 table {
-  border-collapse: collapse; 
+    border-collapse: collapse;
 }
 
 tr:nth-child(n) {
-  border: solid thin;
-  height: 2em;
-
-}
-tr > th{
-  border: solid thin;
-  padding: 0px 1em;
+    border: solid thin;
+    height: 2em;
 }
 
-.table-align-center{
-  text-align: center;
-}
-.padding-left-1em{
-  padding-left:1em;
+tr>th {
+    border: solid thin;
+    padding: 0px 1em;
 }
 
-.text-modal{
-  color:white
+.table-align-center {
+    text-align: center;
 }
 
-.img-thumbnail{
-  max-width: 100%;
-
+.padding-left-1em {
+    padding-left: 1em;
 }
 
-.text-center{
-  text-align: center !important;
+.text-modal {
+    color: white
 }
-.mais-detalhes{
-  background-color: #04AA6D !important;
-color: #ffffff !important;
-border-color: #04AA6D !important;
-text-transform: none !important;
+
+.img-thumbnail {
+    max-width: 100%;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.mais-detalhes {
+    background-color: #04AA6D !important;
+    color: #ffffff !important;
+    border-color: #04AA6D !important;
+    text-transform: none !important;
 }
