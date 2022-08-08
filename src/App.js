@@ -11,11 +11,7 @@ import './App.css';
 export default function Main() {
 
   const element = <h1>REACT STORE</h1>;
-  const name = 'John Doe'
-  const teste = {
-    description:'descricao',
-    title:'titulo'
-  }
+  
   return (
     <div className="App">
       <header className="App-header">

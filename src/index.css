@@ -55,3 +55,7 @@ tr>th {
     border-color: #04AA6D !important;
     text-transform: none !important;
 }
+
+.margin-left-1em{
+    margin-left:1em !important;
+}
