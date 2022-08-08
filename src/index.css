@@ -40,3 +40,18 @@ tr > th{
 .text-modal{
   color:white
 }
+
+.img-thumbnail{
+  max-width: 100%;
+
+}
+
+.text-center{
+  text-align: center !important;
+}
+.mais-detalhes{
+  background-color: #04AA6D !important;
+color: #ffffff !important;
+border-color: #04AA6D !important;
+text-transform: none !important;
+}

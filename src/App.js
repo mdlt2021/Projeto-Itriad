@@ -25,9 +25,11 @@ export default function Main() {
         <img src={logo} className="App-logo" alt="logo" />
         {element}
         <FetchDefaultFromApi/>
-        
+        <br/> <br/> <br/>
       </header>
+      
     </div>
+   
   );
 }
 
