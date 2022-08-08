@@ -10,8 +10,6 @@ import './App.css';
 
 export default function Main() {
 
-
-
   const element = <h1>REACT STORE</h1>;
   const name = 'John Doe'
   const teste = {
@@ -33,4 +31,3 @@ export default function Main() {
   );
 }
 
-// .onClickHandler.bind(this);
