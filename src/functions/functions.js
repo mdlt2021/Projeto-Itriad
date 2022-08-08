@@ -1,11 +1,22 @@
 import React, { Component, useContext, useState, useParams, useEffect } from 'react';
+// import * as React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
-import { Modal } from '@mui/material';
-import Box from '@mui/material/Box';
+
+
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
+
+// import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import ReactModal from 'react-modal';
 import ReactDOM from 'react-dom';
+
+
+import { Modal } from '@mui/material';
+import { styled, Box, Theme } from '@mui/system';
+import ModalUnstyled from '@mui/base/ModalUnstyled';
+
 // import Modal  from 'react-modal';
 
 export const FetchDefaultFromApi = () => {
@@ -73,40 +84,163 @@ export const FetchDefaultFromApi = () => {
   )
 }
 
+export function ModalUnstyledDemo() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
+  const BackdropUnstyled = React.forwardRef((props, ref) => {
+    const { open, className, ...other } = props;
+    return (
+      <div
+        className={clsx({ 'MuiBackdrop-open': open }, className)}
+        ref={ref}
+        {...other}
+      />
+    );
+  });
+  
+  BackdropUnstyled.propTypes = {
+    className: PropTypes.string.isRequired,
+    open: PropTypes.bool,
+  };
+  
+  const Modal = styled(ModalUnstyled)`
+    position: fixed;
+    z-index: 1300;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+  
+  const Backdrop = styled(BackdropUnstyled)`
+    z-index: -1;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-tap-highlight-color: transparent;
+  `;
+  
+  const style = (theme) => ({
+    width: 400,
+    bgcolor: theme.palette.mode === 'dark' ? '#0A1929' : 'white',
+    border: '2px solid currentColor',
+    padding: '16px 32px 24px 32px',
+  });
+  
+  return (
+    <div>
+      <button type="button" onClick={handleOpen}>
+        Open modal
+      </button>
+      <Modal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={open}
+        onClose={handleClose}
+        components={{ Backdrop }}
+      >
+        <Box sx={style}>
+          <h2 id="unstyled-modal-title">Text in a modal</h2>
+          <p id="unstyled-modal-description">Aliquid amet deserunt earum!</p>
+        </Box>
+      </Modal>
+    </div>
+  );
+}
 
-export const BasicModal = () => {
+export const BasicModal = (props) => {
+  
+const BackdropUnstyled = React.forwardRef((props, ref) => {
+  const { open, className, ...other } = props;
+  return (
+    <div
+      className={clsx({ 'MuiBackdrop-open': open }, className)}
+      ref={ref}
+      {...other}
+    />
+  );
+});
+
+BackdropUnstyled.propTypes = {
+  className: PropTypes.string.isRequired,
+  open: PropTypes.bool,
+};
+
+const Modal = styled(ModalUnstyled)`
+  position: fixed;
+  z-index: 1300;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Backdrop = styled(BackdropUnstyled)`
+  z-index: -1;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+`;
+
+const style = (theme) => ({
+  width: 400,
+  bgcolor: theme.palette.mode === 'dark' ? '#0A1929' : 'white',
+  border: '2px solid currentColor',
+  padding: '16px 32px 24px 32px',
+});
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const [modalOpen, setModalOpen] = useState(false)
   const [modalSize, setModalSize] = useState('medium')
+  const customStyles = {
+    content: {
+      top: '35%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      width: '60%',
+      transform: 'translate(-40%, -10%)',
+    },
+  };
   return (
     <>
       <Button
         label="Launch modal"
-        onClick={() => {
-          setModalOpen(true)          
-        }}
+        onClick={handleOpen}
         
         priority="outline"
       >Mais Detalhes</Button>
       <div>
-        {modalOpen && (
-          <Modal
-            actions={[
-              {
-                color: 'danger',
-                label: 'Delete',
-                onClick: () => setModalOpen(false),
-              },
-            ]}
-            onClose={() => setModalOpen(false)}
-            title="Warning"
-          >
-            <p>
-              Do you really want to delete the user <code>admin</code>? This
-              cannot be undone.
-            </p>
-          </Modal>
-        )}
+      <Modal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={open}
+        onClose={handleClose}
+        components={{ Backdrop }}
+      >
+        <Box sx={style}>
+          <h2 id="unstyled-modal-title">Text in a modal</h2>
+          <p id="unstyled-modal-description">Aliquid amet deserunt earum!</p>
+        </Box>
+      </Modal>  
       </div>
     </>
   )

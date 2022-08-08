@@ -25,7 +25,7 @@ export default function Main() {
         <img src={logo} className="App-logo" alt="logo" />
         {element}
         <FetchDefaultFromApi/>
-        {BasicModal(teste.description, teste.title, 'urlimagem.jpg')}
+        
       </header>
     </div>
   );
