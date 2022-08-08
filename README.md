@@ -9,8 +9,8 @@ NMP >= 8
 
 ## Como Buildar
 
-Clonar o repositório, seguido de
-`nmp install` e `npm start` no diretório local do projeto
+Clonar o repositório, seguido dos comandos
+`nmp install`, `npm dedupe`, `npm i` e `npm start` no diretório local do projeto
 
 
 Abra [http://localhost:3000](http://localhost:3000) para vera a aplicaçao no navegador

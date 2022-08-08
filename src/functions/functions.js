@@ -47,6 +47,7 @@ export const FetchDefaultFromApi = () => {
   return (
     <>
       <div className="app">
+        <BuscaProduto/>
         <table className="table">
           <thead>
             <tr>
@@ -155,7 +156,8 @@ export const BasicModal = (produto) => {
           onClick={handleOpen}
           className='mais-detalhes'
           priority="outline"
-        >Mais Detalhes</Button>
+          size='small'
+        >+ Detalhes</Button>
         <div>
         <Modal
           aria-labelledby="unstyled-modal-title"
@@ -166,7 +168,7 @@ export const BasicModal = (produto) => {
         >
           <Box sx={style}>
             <h2 className='text-center' id="unstyled-modal-title">{produto.title}</h2>
-            <img className='img-thumbnail' src={produto.thumbnail}/>
+            <img alt='Foto do Produto' title='Foto do Produto' className='img-thumbnail' src={produto.thumbnail}/>
             <h3 className='text-center' id="unstyled-modal-description">Nota {produto.rating} de 5!</h3>
             <p id="unstyled-modal-description">Marca: {produto.brand}</p>
             <p id="unstyled-modal-description">Categoria: {produto.category}</p>
@@ -178,5 +180,20 @@ export const BasicModal = (produto) => {
       </>
     )
   }
-  
+
+export const BuscaProduto = () => {
+  return (
+    <>        
+      <input/>
+      <Button
+      label="buscar"
+      // onClick={handleOpen}
+      className='mais-detalhes'
+      priority="outline"
+      size='medium'
+      >Buscar</Button>
+    </>
+  )
+}
+
 
