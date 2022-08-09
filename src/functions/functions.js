@@ -10,8 +10,8 @@ import {DebounceInput} from 'react-debounce-input';
 export const FetchDefaultFromApi = () => {
   const [inputBusca, setInputBusca] = useState("");
   useEffect(() => {
-    getApiData(inputBusca);
-  }, []);
+    getApiData();
+  }, [inputBusca]);
 
   const [quantPagina, setquantPagina] = useState(30);
   useEffect(() => {
@@ -40,17 +40,10 @@ export const FetchDefaultFromApi = () => {
     let responseData;
     const response = await fetch(
       "https://dummyjson.com/products"+queryParams
-    ).then((response) => responseData = response).then((response) => response.json());
+    ).then((response) => response.json());
 
-    console.log(responseData);
-    let statusresponseData = responseData.status;
-    console.log(statusresponseData == 200);
-    if (statusresponseData == 200) {
-      setProducts(response);
-      // response.json();
-    }else{
-      alert(response)
-    }
+    setProducts(response);
+    
   };
   
   
@@ -119,14 +112,21 @@ export const FetchDefaultFromApi = () => {
     atualizaTabela();
   }, [Pagina]);
   
-  // Number(productList.total) / Number(productList.limit);
   let limite = 30;
   let total = 100;
   let totalPaginas = 4;
+  let last = 0;
+      
   if (typeof productList !== 'undefined') {
+    
     limite = Number(quantPagina) || 1;
     total = Number(productList.total) || 1;
-    totalPaginas = Math.floor((total/limite)+1);    
+
+    if (total%limite >0) {
+      last = 1
+    }
+
+    totalPaginas = Math.floor((total/limite)+last);    
   }
   
   return (
@@ -137,7 +137,7 @@ export const FetchDefaultFromApi = () => {
         <br/>
         <h4 className='header-busca'>Buscar Produto</h4>
         <DebounceInput 
-          debounceTimeout={300}
+          debounceTimeout={500}
           placeholder='Buscar Produto'       
           onChange={ (e) => {setInputBusca(e.target.value);ResetDefaultTabelas(e.target.value);getApiData(e.target.value)} }          
           className="height-2em input-busca"
@@ -173,7 +173,7 @@ export const FetchDefaultFromApi = () => {
           <DebounceInput
             id='quantPagina'
             value={quantPagina}
-            debounceTimeout={300}
+            debounceTimeout={500}
             placeholder='Quantidade por Página'
             onChange={(e) => {setquantPagina(e.target.value)}}
             className="margin-left-1em margin-right-1em width-20px text-center height-1em"
