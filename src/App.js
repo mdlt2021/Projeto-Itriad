@@ -1,7 +1,7 @@
 import React, { Fragment , useEffect, useState} from "react";
 import "./index.css"
 
-import {FetchDefaultFromApi,BasicModal,BuscaProduto} from "./functions/functions.js"
+import {FetchDefaultFromApi,BasicModal} from "./functions/functions.js"
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useParams } from "react-router-dom";
 
 

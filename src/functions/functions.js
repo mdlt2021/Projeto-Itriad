@@ -1,25 +1,12 @@
-import React, { Component, useContext, useState, useParams, useEffect ,useRef } from 'react';
-// import * as React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
-
-
+import React, { useState,  useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-
-// import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import ReactModal from 'react-modal';
-import ReactDOM from 'react-dom';
-
-
-import { Modal } from '@mui/material';
 import { styled, Box, Theme } from '@mui/system';
 import ModalUnstyled from '@mui/base/ModalUnstyled';
 
-// import Modal  from 'react-modal';
 
-export const FetchDefaultFromApi = (produtos) => {
+export const FetchDefaultFromApi = () => {
   const [inputBusca, setInputBusca] = useState("");
   useEffect(() => {
     getApiData(inputBusca);
@@ -28,35 +15,11 @@ export const FetchDefaultFromApi = (produtos) => {
   const [productList, setProducts] = useState();
   const [quantPagina, setquantPagina] = useState(30);
   const [Pagina, setPagina] = useState(1);
-  let busca = '';
-
-  function simulateMouseClick(){
-    var element = document.querySelector('#buscar');
-    console.log(element);
-    mouseClickEvents.forEach(mouseEventType =>
-      element.dispatchEvent(
-        new MouseEvent(mouseEventType, {
-            view: window,
-            bubbles: true,
-            cancelable: true,
-            buttons: 1
-        })
-      )
-    );
-  }
-  
-  
   
 
-  
- 
-  if (inputBusca != '') {
-    busca = "/search?q="+inputBusca
-  }
   let auxPagina = Number(Pagina)
   let skip = quantPagina*( auxPagina - 1 );
 
-  console.log(quantPagina,Pagina);
 
   const getApiData = async (busca) => {
     let query = '&q='
@@ -68,51 +31,19 @@ export const FetchDefaultFromApi = (produtos) => {
     const response = await fetch(
       "https://dummyjson.com/products"+queryParams
     ).then((response) => response.json());
-
-    console.log('FetchDefaultFromApi',response);
     setProducts(response);
-    // if (response.total > 0) {      
-    // }
   };
   
   
   function ResetDefaultTabelas(dados) {
-    if (dados == '') {
-      
+    if (dados == '') {      
       getApiData();
     }
   }
     
-  // function buscaProdutoApi(nomeProduto){
-    
-  //   const getApiData = async (nomeProduto) => {
-  //   let query
-  //     if (nomeProduto == '') {
-  //       query = ''
-  //    }else{
-  //       query = "/search?q="+nomeProduto;
-  //    }
-  //     const url  = "https://dummyjson.com/products"+query;
-  //     const response = await fetch(
-  //       url
-  //     ).then((response) => response.json());
-  
-  //     console.log('buscaProdutoApi',response);
-  //     // setProducts(response);
 
-  //     return response;
-  //   };
-    
-  //   // getApiData(nomeProduto)
-  //   useEffect(() => {
-  //     getApiData(nomeProduto);
-  //   }, []);
-  // }
   function atualizaTabela ()  {
-    let aaa = inputBusca;
-    console.log(aaa);
-    const dados = getApiData(aaa);
-    console.log('dados',dados);
+    const dados = getApiData(inputBusca);
     if (dados && dados.total > 0) {
       setProducts(dados)      
     }
@@ -122,41 +53,30 @@ export const FetchDefaultFromApi = (produtos) => {
   }
 
   function loopPaginas  (paginaAtual)  {
-    let optionss = [];
+    let optionsArray = [];
     let select;
     paginaAtual = Number(paginaAtual);
-    console.log('paginaAtual:',paginaAtual)
     for (let index = 1; index < paginaAtual +5; index++) {
       if (index == paginaAtual) {
         select = 'select'
       }else{
         select = '';
       }
-      optionss.push(<option  value={index} {...select}>{index}</option>) 
+      optionsArray.push(<option  value={index} {...select}>{index}</option>) 
     }
     
     return(
       <>
-      {optionss}
+      {optionsArray}
       </>    
     )
   }
+
   React.useEffect(() => {
     atualizaTabela();
-
-    if (Pagina != 1) {
-      console.log("Button Clicked!",Pagina);
-      // atualizaTabela();
-    } else {
-      console.log("No Button Clicked!",Pagina);
-    }
   }, [Pagina]);
   
-  function trocaPagina (e) {
-    setPagina(e.target.value);
-    //  atualizaTabela();
-     
-  }
+  
   return (
     <>
       <div className="app">
@@ -177,7 +97,7 @@ export const FetchDefaultFromApi = (produtos) => {
           onChange={ (e) => {setInputBusca(e.target.value);ResetDefaultTabelas(e.target.value)} }
           className="height-2em"
         />
-         <Button 
+        <Button 
           id='buscar'
           label="buscar"
           className='mais-detalhes margin-left-1em'
@@ -185,23 +105,18 @@ export const FetchDefaultFromApi = (produtos) => {
           size='medium'
           
           value={inputBusca} onClick={(e) => {atualizaTabela()}}
-        > Buscar
+        >
+          Buscar
         </Button>
-        {/* <BuscaProduto/> */}
         <p>{inputBusca}</p>
-        {/* {console.log(productList)} */}
-        {/* {buscaProdutoApi(input)} */}
+        
 
         <br/>
         <span>Página </span> 
         <select
-        className='height-2em'
-        textoBusca={inputBusca}
-        // onChange={(e) => {useEffect(() => {
-        //     atualizaTabela();
-        //   }, [e.target.value])}
-        // }
-        onChange={(e) => {trocaPagina(e)} }
+          className='height-2em'
+          textoBusca={inputBusca}
+          onChange={(e) => {setPagina(e.target.value)} }
         >
           {loopPaginas(Pagina)}
         </select>
@@ -225,17 +140,14 @@ export const FetchDefaultFromApi = (produtos) => {
               Object.keys(productList.products).map((index, i) => (
                 
                 <tr
-                  //  onClick={async () => {await this.asyncFunc("Example");} }
-                  // onClick={(e) =>this.doSomething(e)}
+                
                   className="item-container" key={productList.products[i].id}>
                   <td className="table-align-center">{i + 1}</td>
                   <td className="padding-left-1em">{productList.products[i].title}</td>
                   <td className="padding-left-1em">{productList.products[i].description}</td>
                   <td className="padding-left-1em">{productList.products[i].price}</td>
                   <td className="padding-left-1em">{productList.products[i].stock}</td>
-                  {/* {console.log('teste',{...productList.products[i]})} */}
                   <td><BasicModal {...productList.products[i]}/></td>
-                  {/* <td>{BasicModal(productList.products[i].title, productList.products[i].description)}</td> */}
                 </tr>
               ))
             }
@@ -255,17 +167,13 @@ export const TableBody = (productList) => {
         Object.keys(productList.products).map((index, i) => (
           
           <tr
-            //  onClick={async () => {await this.asyncFunc("Example");} }
-            // onClick={(e) =>this.doSomething(e)}
             className="item-container" key={productList.products[i].id}>
             <td className="table-align-center">{i + 1}</td>
             <td className="padding-left-1em">{productList.products[i].title}</td>
             <td className="padding-left-1em">{productList.products[i].description}</td>
             <td className="padding-left-1em">{productList.products[i].price}</td>
             <td className="padding-left-1em">{productList.products[i].stock}</td>
-            {/* {console.log('teste',{...productList.products[i]})} */}
             <td><BasicModal {...productList.products[i]}/></td>
-            {/* <td>{BasicModal(productList.products[i].title, productList.products[i].description)}</td> */}
           </tr>
         ))
       }
@@ -274,7 +182,6 @@ export const TableBody = (productList) => {
   )
 }
 export const BasicModal = (produto) => {
-  // console.log('BasicModal produto',produto)
   const BackdropUnstyled = React.forwardRef((props, ref) => {
     const { open, className, ...other } = props;
     return (
@@ -324,19 +231,6 @@ export const BasicModal = (produto) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [modalOpen, setModalOpen] = useState(false)
-  const [modalSize, setModalSize] = useState('medium')
-  const customStyles = {
-    content: {
-      top: '35%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      width: '60%',
-      transform: 'translate(-40%, -10%)',
-    },
-  };
   return (
     <>
       <Button
@@ -367,69 +261,6 @@ export const BasicModal = (produto) => {
       </div>
     </>
   )
-}
-
-export const BuscaProduto = () => {
-
-  const nameForm = useRef(null)
-
-  function buscaProdutoApi(nomeProduto){
-
-    const getApiData = async (nomeProduto) => {
-      const url  = "https://dummyjson.com/products/search?q="+nomeProduto;
-      const response = await fetch(
-        url
-      ).then((response) => response.json());
-      
-
-      console.log('Buscaprodutos  ',response);
-      // setProducts(response);
-      // console.log(productList);
-
-      return response;
-    };
-    console.log('getApiData',getApiData(nomeProduto))
-    // getApiData(nomeProduto)
-    // useEffect(() => {
-    //   getApiData(nomeProduto);
-    // }, []);
-  }
-  const handleClickEvent = () => {
-    const form = nameForm.current
-    let nomeProduto = form['NomeProduto'].value
-    console.log(nomeProduto);
-
-    buscaProdutoApi(nomeProduto);
-  }
-
-  return (
-    <div>
-      <form ref={nameForm}>
-       <input label={'NomeProduto'} name={'NomeProduto'}/>
-      </form>
-      <Button
-      label="buscar"
-      onClick={handleClickEvent}
-      className='mais-detalhes'
-      priority="outline"
-      size='medium'
-      >Buscar</Button>
-    </div>
-  )
-
-
-  // return (
-  //   <>        
-  //     <input/>
-  //     <Button
-  //     label="buscar"
-  //     // onClick={handleOpen}
-  //     className='mais-detalhes'
-  //     priority="outline"
-  //     size='medium'
-  //     >Buscar</Button>
-  //   </>
-  // )
 }
 
 
