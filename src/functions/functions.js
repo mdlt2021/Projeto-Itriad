@@ -20,22 +20,47 @@ import ModalUnstyled from '@mui/base/ModalUnstyled';
 // import Modal  from 'react-modal';
 
 export const FetchDefaultFromApi = (produtos) => {
-  const [inputBusca, setInputBusca] = useState("")
+  const [inputBusca, setInputBusca] = useState("");
   const [productList, setProducts] = useState();
+  const [quantPagina, setquantPagina] = useState(30);
+  const [Pagina, setPagina] = useState(1);
   let busca = '';
 
+  function simulateMouseClick(){
+    var element = document.querySelector('#buscar');
+    console.log(element);
+    mouseClickEvents.forEach(mouseEventType =>
+      element.dispatchEvent(
+        new MouseEvent(mouseEventType, {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+            buttons: 1
+        })
+      )
+    );
+  }
+  
+  
+  
+
+  
  
   if (inputBusca != '') {
     busca = "/search?q="+inputBusca
   }
+  let auxPagina = Number(Pagina)
+  let skip = quantPagina*( auxPagina - 1 );
+
+  console.log(quantPagina,Pagina);
 
   const getApiData = async (busca) => {
     let query = ''
     if (busca) {
-      query = "/search?q="+busca;
+      query = "&search?q="+busca;
     }
     const response = await fetch(
-      "https://dummyjson.com/products"+query
+      "https://dummyjson.com/products/?limit="+quantPagina+"&skip="+skip+query
     ).then((response) => response.json());
 
     console.log('FetchDefaultFromApi',response);
@@ -48,33 +73,40 @@ export const FetchDefaultFromApi = (produtos) => {
     getApiData(inputBusca);
   }, []);
 
-  
-  function buscaProdutoApi(nomeProduto){
-    
-    const getApiData = async (nomeProduto) => {
-    let query
-      if (nomeProduto == '') {
-        query = ''
-     }else{
-        query = "/search?q="+nomeProduto;
-     }
-      const url  = "https://dummyjson.com/products"+query;
-      const response = await fetch(
-        url
-      ).then((response) => response.json());
-  
-      console.log('buscaProdutoApi',response);
-      // setProducts(response);
-
-      return response;
-    };
-    
-    // getApiData(nomeProduto)
-    useEffect(() => {
-      getApiData(nomeProduto);
-    }, []);
+  function ResetDefaultTabelas(dados) {
+    if (dados == '') {
+      
+      getApiData();
+    }
   }
-  function atualizaTabela (aaa)  {
+    
+  // function buscaProdutoApi(nomeProduto){
+    
+  //   const getApiData = async (nomeProduto) => {
+  //   let query
+  //     if (nomeProduto == '') {
+  //       query = ''
+  //    }else{
+  //       query = "/search?q="+nomeProduto;
+  //    }
+  //     const url  = "https://dummyjson.com/products"+query;
+  //     const response = await fetch(
+  //       url
+  //     ).then((response) => response.json());
+  
+  //     console.log('buscaProdutoApi',response);
+  //     // setProducts(response);
+
+  //     return response;
+  //   };
+    
+  //   // getApiData(nomeProduto)
+  //   useEffect(() => {
+  //     getApiData(nomeProduto);
+  //   }, []);
+  // }
+  function atualizaTabela ()  {
+    let aaa = inputBusca;
     console.log(aaa);
     const dados = getApiData(aaa);
     console.log('dados',dados);
@@ -85,24 +117,91 @@ export const FetchDefaultFromApi = (produtos) => {
       alert("Não foi encontrado produto com essa descrição")
     }
   }
+
+  function loopPaginas  (paginaAtual)  {
+    let optionss = [];
+    let select;
+    paginaAtual = Number(paginaAtual);
+    console.log('paginaAtual:',paginaAtual)
+    for (let index = 1; index < paginaAtual +5; index++) {
+      if (index == paginaAtual) {
+        select = 'select'
+      }else{
+        select = '';
+      }
+      optionss.push(<option  value={index} {...select}>{index}</option>) 
+    }
+    
+    return(
+      <>
+      {optionss}
+      </>    
+    )
+  }
+  React.useEffect(() => {
+    atualizaTabela();
+
+    if (Pagina != 1) {
+      console.log("Button Clicked!",Pagina);
+      // atualizaTabela();
+    } else {
+      console.log("No Button Clicked!",Pagina);
+    }
+  }, [Pagina]);
+  
+  function trocaPagina (e) {
+    setPagina(e.target.value);
+    //  atualizaTabela();
+     
+  }
   return (
     <>
       <div className="app">
+        <span>Mostrar</span>
+        <input
+          id='quantPagina'
+          value={quantPagina}
+          placeholder='Quantidade por Página'
+          onChange={(e) => {setquantPagina(e.target.value)}}
+        
+        />
+        <span>Resultados por página</span>
+        <br/>
+        <br/>
         <input 
-        placeholder='Buscar Produto'       
-         onChange={ (e) => {setInputBusca(e.target.value)} }
-         />
+          placeholder='Buscar Produto'       
+          onChange={ (e) => {setInputBusca(e.target.value);ResetDefaultTabelas(e.target.value)} }
+        />
          <Button 
-         label="buscar"
-         className='mais-detalhes margin-left-1em'
-         priority="outline"
-         size='medium'
-         
-         value={inputBusca} onClick={(e) => {atualizaTabela(e.target.value)}}> Buscar</Button>
+          id='buscar'
+          label="buscar"
+          className='mais-detalhes margin-left-1em'
+          priority="outline"
+          size='medium'
+          
+          value={inputBusca} onClick={(e) => {atualizaTabela()}}
+        > Buscar
+        </Button>
         {/* <BuscaProduto/> */}
         <p>{inputBusca}</p>
         {/* {console.log(productList)} */}
         {/* {buscaProdutoApi(input)} */}
+
+        <br/>
+        <span>Página </span> 
+        <select
+        textoBusca={inputBusca}
+        // onChange={(e) => {useEffect(() => {
+        //     atualizaTabela();
+        //   }, [e.target.value])}
+        // }
+        onChange={(e) => {trocaPagina(e)} }
+        >
+          {loopPaginas(Pagina)}
+        </select>
+        <br/>
+        <br/>
+
         <table className="table">
           <thead>
             <tr>
