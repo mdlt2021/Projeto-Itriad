@@ -21,6 +21,10 @@ import ModalUnstyled from '@mui/base/ModalUnstyled';
 
 export const FetchDefaultFromApi = (produtos) => {
   const [inputBusca, setInputBusca] = useState("");
+  useEffect(() => {
+    getApiData(inputBusca);
+  }, []);
+
   const [productList, setProducts] = useState();
   const [quantPagina, setquantPagina] = useState(30);
   const [Pagina, setPagina] = useState(1);
@@ -55,24 +59,23 @@ export const FetchDefaultFromApi = (produtos) => {
   console.log(quantPagina,Pagina);
 
   const getApiData = async (busca) => {
-    let query = ''
+    let query = '&q='
+    let queryParams = '';
     if (busca) {
-      query = "&search?q="+busca;
+      query = "&q="+busca;
     }
+    queryParams = "/search?limit="+quantPagina+"&skip="+skip+query
     const response = await fetch(
-      "https://dummyjson.com/products/?limit="+quantPagina+"&skip="+skip+query
+      "https://dummyjson.com/products"+queryParams
     ).then((response) => response.json());
 
     console.log('FetchDefaultFromApi',response);
-    if (response.total > 0) {      
-      setProducts(response);
-    }
+    setProducts(response);
+    // if (response.total > 0) {      
+    // }
   };
   
-  useEffect(() => {
-    getApiData(inputBusca);
-  }, []);
-
+  
   function ResetDefaultTabelas(dados) {
     if (dados == '') {
       
@@ -163,6 +166,7 @@ export const FetchDefaultFromApi = (produtos) => {
           value={quantPagina}
           placeholder='Quantidade por Página'
           onChange={(e) => {setquantPagina(e.target.value)}}
+          className="margin-left-1em margin-right-1em width-40px text-center height-2em"
         
         />
         <span>Resultados por página</span>
@@ -171,6 +175,7 @@ export const FetchDefaultFromApi = (produtos) => {
         <input 
           placeholder='Buscar Produto'       
           onChange={ (e) => {setInputBusca(e.target.value);ResetDefaultTabelas(e.target.value)} }
+          className="height-2em"
         />
          <Button 
           id='buscar'
@@ -190,6 +195,7 @@ export const FetchDefaultFromApi = (produtos) => {
         <br/>
         <span>Página </span> 
         <select
+        className='height-2em'
         textoBusca={inputBusca}
         // onChange={(e) => {useEffect(() => {
         //     atualizaTabela();
