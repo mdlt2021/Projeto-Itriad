@@ -251,7 +251,8 @@ export const BasicModal = (produto) => {
         <Box sx={style}>
           <h2 className='text-center' id="unstyled-modal-title">{produto.title}</h2>
           <img alt='Foto do Produto' title='Foto do Produto' className='img-thumbnail' src={produto.thumbnail}/>
-          <h3 className='text-center' id="unstyled-modal-description">Nota {produto.rating} de 5!</h3>
+          <h2 className='text-center' id="unstyled-modal-description">Nota {produto.rating} de 5!</h2>
+          <h3 id="unstyled-modal-description">R$ {produto.price}.00 ({produto.discountPercentage}% de desconto!)</h3>
           <p id="unstyled-modal-description">Marca: {produto.brand}</p>
           <p id="unstyled-modal-description">Categoria: {produto.category}</p>
           <p id="unstyled-modal-description">{produto.description}</p>
